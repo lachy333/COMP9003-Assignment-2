@@ -1,0 +1,77 @@
+# Team Collaboration Guide: Git & VS Code
+
+Welcome to the project! This guide explains our team's workflow for collaborating on code using Git and Visual Studio Code. Following these steps will help us stay organized, avoid conflicts, and work together efficiently.
+
+## 1. Initial Setup (One-time only)
+
+Everyone on the team must complete these steps before starting.
+
+### Prerequisites:
+1.  **Install Git**: Make sure Git is installed on your computer. You can download it from [git-scm.com](https://git-scm.com/).
+2.  **Install VS Code Extensions**: Open VS Code, go to the **Extensions** view (`Ctrl+Shift+X`), and install:
+    *   `Extension Pack for Java`
+    *   `GitHub Pull Requests and Issues`
+3.  **Log in to GitHub**: In VS Code, click the **Accounts** icon (bottom-left silhouette) and sign in to your GitHub account.
+
+### Getting the Project:
+*   The **Project Leader** will create the repository on GitHub and invite all teammates as collaborators.
+*   **All Teammates** must accept the email invitation from GitHub.
+*   Once you are a collaborator, **clone the repository**:
+    1.  Open the VS Code Command Palette (`Ctrl+Shift+P`).
+    2.  Run `Git: Clone`.
+    3.  Choose **"Clone from GitHub"** and select our project repository.
+    4.  Pick a location on your computer to save the project.
+
+---
+
+## 2. Development Workflow (Daily Cycle)
+
+Follow this cycle every time you start working on a new task.
+
+### Step A: Start Fresh - Pull the Latest Changes
+
+**Always do this before writing any code.** This syncs your local copy with the latest version from GitHub.
+
+1.  Make sure you are on the `main` branch. You can check the branch name in the bottom-left corner.
+2.  Click the **synchronize icon** (🔄) in the status bar at the bottom-left. This will `pull` any new changes from the remote repository.
+
+### Step B: Create Your Own Branch
+
+Never work directly on the `main` branch. Create a new branch for each task. This gives you a safe space to work without affecting the main codebase.
+
+1.  Click the branch name (`main`) in the bottom-left corner.
+2.  Select `+ Create new branch...` from the top menu.
+3.  Name your branch descriptively. Use prefixes like `feature/` or `fix/`.
+    *   **Good example:** `feature/user-login`
+    *   **Good example:** `fix/navbar-bug`
+
+### Step C: Code, Commit, and Push Your Work
+
+Now you can start coding on your new branch.
+
+1.  **Write Code**: Make your changes and save the files.
+2.  **Stage & Commit**: A "commit" is a snapshot of your changes.
+    *   Go to the **Source Control** view (the branching icon).
+    *   Click the **`+`** icon next to the files you want to include in your snapshot (this is called "staging").
+    *   Write a clear, concise commit message in the text box (e.g., "Add validation to login form").
+    *   Click the **checkmark icon (✓)** to commit.
+3.  **Push to GitHub**: Upload your new branch and its commits to GitHub.
+    *   Click the **synchronize icon (🔄)**. VS Code will ask to "Publish Branch". Click it.
+
+### Step D: Create a Pull Request (PR)
+
+When your feature is complete, create a **Pull Request (PR)**. This is a request to merge your changes into the `main` branch and a chance for teammates to review your code.
+
+1.  Go to the **GitHub** view (the GitHub logo icon on the sidebar).
+2.  Click the **`Create Pull Request`** button.
+3.  Ensure the base branch is `main` and the compare branch is your feature branch.
+4.  Add a title and a brief description of your work.
+5.  Click **"Create"**.
+
+### Step E: Review, Merge, and Clean Up
+
+1.  **Code Review**: Team members will review the PR on GitHub, leave comments, and suggest changes if needed.
+2.  **Merge**: Once the PR is approved, the author or a team lead clicks the **"Merge pull request"** button on GitHub.
+3.  **Delete Branch**: After merging, you can delete your feature branch to keep the repository clean. GitHub provides a button for this right after you merge.
+
+**Congratulations, you've successfully contributed!** Now, go back to **Step A** to start your next task.
