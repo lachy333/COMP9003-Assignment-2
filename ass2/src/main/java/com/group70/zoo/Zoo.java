@@ -1,8 +1,8 @@
 package com.group70.zoo;
 
 import java.util.ArrayList;
-
-import com.group70.Keeper.Keeper;
+import com.group70.keeper.Keeper;
+import com.group70.animal.Animal;
 
 public class Zoo {
     // List to manage animals
@@ -21,7 +21,6 @@ public class Zoo {
     /**
      * Assigns a keeper to a specific animal using their IDs.
      * If either ID is invalid, an error message is shown.
-     * Handles ExpertiseMismatchException if keeper lacks expertise.
      */
 
 
@@ -33,22 +32,14 @@ public class Zoo {
             return;
         }
 
-        // Find animal by animaID
+        // Find animal by animalID
         Animal animal = findAnimalById(animalID);
         if (animal == null){
             System.out.println("Can't find this animal: " + animalID);
             return;
         }
 
-        // Try to assign the keeper to the animal
-        try {
-            keeper.assignAnimal(animal);
-            System.out.println("Assigned keeper " + keeperID + " to animal " + animalID);
-            
-        } catch (ExpertiseMismatchException e) {
-            System.out.println("Assignment failed: " + e.getMessage());
-        }
-
+        keeper.assignAnimal(animal);
 
     }
 
@@ -106,7 +97,7 @@ public class Zoo {
             return;
         }
 
-        System.out.println("===Animal List===");
+        System.out.println("=== Animal List ===");
         for (Animal a : animals){
             if (a != null){
                 System.out.println("Animal ID: " + a.getAnimalID());
@@ -131,7 +122,7 @@ public class Zoo {
             return;
         }
 
-        System.out.println("===Keeper List===");
+        System.out.println("=== Keeper List ===");
         for (Keeper k : keepers){
             if (k != null){
                 System.out.println("Keeper ID: " + k.getKeeperID());
@@ -157,7 +148,7 @@ public class Zoo {
             }
         }
 
-        System.out.println("===Zoo Summary===");
+        System.out.println("=== Zoo Summary ===");
         System.out.println("Total animals: " + totalAnimals);
         System.out.println("Total keepers: " + totalKeepers);
         System.out.println("Total meals fed: " + totalMeals);
