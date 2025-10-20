@@ -9,6 +9,8 @@ public class Zoo {
     private ArrayList<Animal> animals;
     // List to manage keeper
     private ArrayList<Keeper> keepers;
+    // Automated ID
+    private int nextAnimalId = 1;
 
     /**
      * constructor: initialize the empty animal list and keeper list.
@@ -162,8 +164,26 @@ public class Zoo {
      */
     
     public void addAnimal(Animal animal) {
+        if (animal == null){
+            System.out.println("Invalid animal.");
+            return;
+        }
+
+        //If ID is not set, add automatically
+        String id = animal.getAnimalID();
+        if (id == null || id.isBlank()){
+            id = String.valueOf(nextAnimalId++);
+            animal.setAnimalID(id);
+        } else{
+            //Checking the duplicate
+            if (existsAnimalId(id)){
+                System.out.println("Duplicate animal ID: " + id);
+                return;
+            }
+        }
         try {
-            this.animals.add(animal);
+            animals.add(animal);
+            System.out.println("Added animal with ID: " + id);
         } catch (Exception e) {
             System.out.println("Error adding animal: " + e.getMessage());
         }
@@ -194,6 +214,16 @@ public class Zoo {
             }
         }
         return null;
+    }
+
+    //Checking the same animal ID
+    private boolean existsAnimalId(String id){
+        for (Animal a: animals){
+            if (a != null && id.equals(a.getAnimalID())){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
