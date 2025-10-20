@@ -1,3 +1,5 @@
+package com.group70.Animal;
+
 public class Penguin extends Animal {
 
     public Penguin(String animalId, String name, String species, double weightkg,

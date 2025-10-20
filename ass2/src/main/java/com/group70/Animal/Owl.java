@@ -1,3 +1,5 @@
+package com.group70.Animal;
+
 public class Owl extends Animal {
 
     public Owl(String animalId, String name, String species, double weightkg,

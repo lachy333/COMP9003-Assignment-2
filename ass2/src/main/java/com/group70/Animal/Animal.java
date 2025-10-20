@@ -1,3 +1,5 @@
+package com.group70.Animal;
+
 abstract class Animal {
 
     // Fields
