@@ -1,3 +1,5 @@
+package com.group70.Animal;
+
 public class Elephant extends Animal {
 
     public Elephant(String animalId, String name, String species, double weightkg,
