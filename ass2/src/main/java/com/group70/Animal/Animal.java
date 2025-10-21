@@ -1,6 +1,6 @@
 package com.group70.Animal;
 
-abstract class Animal {
+public abstract class Animal {
 
     // Fields
     private String animalId;
