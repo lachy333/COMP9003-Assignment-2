@@ -1,4 +1,4 @@
-package com.group70.Animal;
+package com.group70.animal;
 
 import java.util.ArrayList;
 

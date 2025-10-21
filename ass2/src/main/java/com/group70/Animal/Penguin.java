@@ -1,4 +1,4 @@
-package com.group70.Animal;
+package com.group70.animal;
 
 public class Penguin extends Animal {
 
