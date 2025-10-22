@@ -3,6 +3,9 @@ package com.group70;
 import java.util.Scanner;
 import com.group70.zoo.Zoo;
 import com.group70.animal.Animal;
+import com.group70.animal.InvalidPortionException;
+import com.group70.animal.OverfeedException;
+import com.group70.keeper.ExpertiseMismatchException;
 import com.group70.keeper.Keeper;
 
 /*
@@ -73,8 +76,7 @@ public class Main {
                                                 "Invalid input format. Please, try again with animal name, species, wightKg.");
                                         break;
                                     } else {
-                                        zoo.addAnimal(
-                                                new Animal(columns[0], columns[1], Double.parseDouble(columns[2])));
+                                        zoo.addAnimal(columns[0], columns[1], Double.parseDouble(columns[2]));
                                         break;
                                     }
 
@@ -85,6 +87,8 @@ public class Main {
                                     break;
 
                                 case 3:
+                                    backToMain = true;
+                                    System.out.println("Returning to main menu.");
                                     break;
 
                                 default:
@@ -94,32 +98,65 @@ public class Main {
                         }
 
                     case 3:
+                        boolean backToMain2 = false;
                         System.out.println("3-1. To add keeper, enter 1");
                         System.out.println("3-2. To remove keeper, enter 2");
+                        System.out.println("To move back to main meny, enter 3");
                         String keeperChoice = scan.nextLine();
                         switch (Integer.parseInt(keeperChoice)) {
                             case 1:
+                                System.out.print("Enter Keeper Name: ");
+                                String keeperName = scan.nextLine();
+                                System.out.print("Endter expertise species(Lion, Elephant, Penguin, Owl) using , as separator: ");
+                                String keeperExp = scan.nextLine();
+                                keeperExp = keeperExp.replaceAll(" ", "");
+                                String[] keeperColumns = keeperExp.split(",");
+                                if (keeperColumns.length != 2) {
+                                    System.out.println(
+                                            "Invalid input format. Please, try again with keeper name and expertise species.");
+                                    break;
+                                } else {
+                                    zoo.addKeeper(keeperColumns[0], keeperColumns);
+                                    break;
+                                }
 
                             case 2:
+                                System.out.print("Enter Keeper ID to remove: ");
+                                String keeperID = scan.nextLine();
+                                zoo.removeKeeper(keeperID);
+                                break;
+
+                            case 3:
+                                backToMain2 = true;
+                                System.out.println("Returning to main menu.");
+                                break;
 
                             default:
                                 System.out.println("Invalid menu number. Please enter valid menu number.");
+                                break;
                         }
                         break;
 
                     case 4:
-                        System.out.print("Enter Keeper ID: ");
+                        System.out.print("Enter KeeperID and AnimalID to assign using , as separator: ");
+                        System.out.print("e.g., K1,L1");
                         String keeperID = scan.nextLine();
-                        System.out.print("Enter Animal ID: ");
-                        String animalID = scan.nextLine();
-                        zoo.assignKeeperToAnimal(keeperID, animalID);
-                        break;
-
+                        String[] assignInfo = keeperID.split(",");
+                        if (assignInfo.length != 2) {
+                            System.out.println(
+                                    "Invalid input format. Please, try again with KeeperID and AnimalID.");
+                            break;
+                        } else {
+                            zoo.assignKeeperToAnimal(assignInfo[0], assignInfo[1]);
+                            break;
+                        }
+                        
                     case 5:
                         System.out.print("Enter Animal ID: ");
                         String feedAnimalID = scan.nextLine();
                         System.out.println("5-1. To feed default portion, enter 1");
                         System.out.println("5-2. To feed specified portion, enter 2");
+                        System.out.println("To move back to main meny, enter 3");
                         String feedChoice = scan.nextLine();
                         switch (Integer.parseInt(feedChoice)) {
                             case 1:
@@ -129,6 +166,9 @@ public class Main {
                                 System.out.print("Enter portion in Kg: ");
                                 double portionKg = Double.parseDouble(scan.nextLine());
                                 zoo.feedAnimal(feedAnimalID, portionKg);
+                                break;
+                            case 3:
+                                System.out.println("Returning to main menu.");
                                 break;
                             default:
                                 System.out.println("Invalid menu number. Please enter valid menu number.");
@@ -145,8 +185,13 @@ public class Main {
 
                 }
 
-            } catch (Exception e) {
-                System.out.println("An error occurred: " + e.getMessage());
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid menu number. Please enter valid menu number.");
+            }
+
+            catch (Exception e) {
+                System.out.println("An unexpected error occurred: " + e.getMessage());
             }
         }
 
