@@ -69,7 +69,7 @@ public abstract class Animal {
     
 
     // Getter Methods
-    public String getAnimalId() {
+    public String getAnimalID() {
         return animalId;
     }
 
@@ -81,7 +81,7 @@ public abstract class Animal {
         return species;
     }
 
-    public double getWeightkg() {
+    public double getWeightKg() {
         return weightkg;
     }
 
