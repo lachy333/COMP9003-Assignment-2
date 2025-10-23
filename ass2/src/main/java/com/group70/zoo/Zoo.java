@@ -1,8 +1,14 @@
 package com.group70.zoo;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import com.group70.keeper.Keeper;
 import com.group70.animal.Animal;
+
+import com.group70.animal.Lion;
+import com.group70.animal.Elephant;
+import com.group70.animal.Penguin;
+import com.group70.animal.Owl;
 
 public class Zoo {
     // List to manage animals
@@ -11,6 +17,7 @@ public class Zoo {
     private ArrayList<Keeper> keepers;
     // Automated ID
     private int nextAnimalId = 1;
+    private int nextKeeperId = 1;
 
     /**
      * constructor: initialize the empty animal list and keeper list.
@@ -190,6 +197,43 @@ public class Zoo {
 
     }
 
+    //Input animal
+    public void addAnimalInteractive(Scanner sc){
+        System.out.println("Available species: Lion/ Elephant/ Penguin/ Owl");
+
+        System.out.print("Animal name: ");
+        String name = sc.nextLine().trim();
+        if (species.isEmpty()){
+            System.out.println("Species cannnot be empty.");
+            return;
+        }
+
+        System.out.print("Weight (kg): ");
+        String w = sc.nextLine().trim();
+        double weight;
+        try {
+            weight = Double.parseDouble(w);
+            if (weight <= 0){
+                System.out.println("Weight must be positive.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number for weight.");
+            return;
+        }
+
+        String id = String.valueOf(nextAnimalId++);
+        Animal a = createAnimalBySpecies(id, name, species, weight);
+        
+        if (a == null){
+            System.out.println("Unexpected species: " + species);
+            return;
+        }
+
+        addAnimal(a);
+        
+    }
+
     /**
      * Add the new keeper to the list
      */
@@ -199,6 +243,49 @@ public class Zoo {
             this.keepers.add(keeper);
         } catch (Exception e) {
             System.out.println("Error adding keeper: " + e.getMessage());
+        }
+    }
+
+    //Input Keeper
+    public void addKeeperInteractive(Scanner sc){
+        String keeperId = "K" + (nextKeeperId++);
+
+        System.out.print("Keeper name: ");
+        String name = sc.nextLine().trim();
+        if (name.isEmpty()){
+            System.out.println("Name cannnot be empty.");
+            return;
+        }
+
+        Keeper k = new Keeper(keeperId, name);
+
+        System.out.println("Add expertise species (comma separated, e.g., Lion, Elephant): ");
+        System.out.print("Expertise: ");
+        String line = sc.nextLine().trim();
+        if (!line.isEmpty()){
+            for (String s : line.split(",")){
+                String sp = s.trim();
+                if (!sp.isEmpty()) k.addExpertise(sp);
+            }
+        }
+
+        addKeeper(k);
+        System.out.println("Add keeper: " + keeperId + "(" + name + ") expertise " + k.getExpertise());
+    }
+
+    //Creating Animal Object
+    private Animal createAnimalBySpecies(String species, String id, String name, double weight) {
+        switch (species.toLowerCase()) {
+            case "lion":
+                return new Lion(id, name, species, weight);
+            case "elephant":
+                return new Elephant(id, name, species, weight);
+            case "penguin":
+                return new Penguin(id, name, species, weight);
+            case "owl":
+                return new Owl(id, name, species, weight);
+            default:
+                return null;
         }
     }
 
@@ -254,6 +341,18 @@ public class Zoo {
         System.out.println("Removed animal: " + animalID);
     }
 
-    
+    /**
+     * Remove the specific keeper from the zoo based on its ID
+     */
+    public void removeKeeper(String keeperID){
+        Keeper t = findKeeperById(keeperID);
+        if (t == null){
+            System.out.println("Keeper not found: " + keeperID);
+            return;
+        }
+        keepers.remove(t);
+        System.out.println("Removed keeper: " + keeperID);
+    }
+
 
 }
