@@ -98,7 +98,7 @@ public abstract class Animal {
     }
 
     // Setter Methods
-    public void setAnimalId(String animalId) {
+    public void setAnimalID(String animalId) {
         this.animalId = animalId;
     }
 

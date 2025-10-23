@@ -2,11 +2,14 @@ package com.group70.zoo;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+
 import com.group70.keeper.Keeper;
 import com.group70.animal.Animal;
 
 import com.group70.animal.Lion;
 import com.group70.animal.Elephant;
+import com.group70.animal.InvalidPortionException;
+import com.group70.animal.OverfeedException;
 import com.group70.animal.Penguin;
 import com.group70.animal.Owl;
 
@@ -66,10 +69,12 @@ public class Zoo {
             }
             
             try {
-                a.feed();
+                a.feed(a.getDietProfile());
                 System.out.println("Already fed: " + animalID);
-            } catch (Exception e) {
+            } catch (InvalidPortionException | OverfeedException e) {
                 System.out.println("Failed to feed: " + e.getMessage());
+            } catch (Exception e){
+                System.out.println("Unexpected error: " + e.getMessage());
             }
     }
     
@@ -89,10 +94,12 @@ public class Zoo {
             }
             
             try {
-                a.feed(portionKg);
+                a.feed(a.getDietProfile(), portionKg);
                 System.out.println("Already fed (" + portionKg + "kg): " + animalID);
-            } catch (Exception e) {
+            } catch (InvalidPortionException | OverfeedException e) {
                 System.out.println("Failed to feed(" + portionKg + " kg): " + e.getMessage());
+            } catch (Exception e){
+                System.out.println("Unexpected error: " + e.getMessage());
             }
     }
 
@@ -112,7 +119,7 @@ public class Zoo {
                 System.out.println("Animal ID: " + a.getAnimalID());
                 System.out.println("Name: " + a.getName());
                 System.out.println("Species: " + a.getSpecies());
-                System.out.println("Weight: " + a.getWeight() + " kg");
+                System.out.println("Weight: " + a.getWeightKg() + " kg");
                 System.out.println("----------------------------");
             }
         }
@@ -203,6 +210,13 @@ public class Zoo {
 
         System.out.print("Animal name: ");
         String name = sc.nextLine().trim();
+        if (name.isEmpty()){
+            System.out.println("Name cannot be empty.");
+            return;
+        }
+
+        System.out.print("Species: ");
+        String species = sc.nextLine().trim();
         if (species.isEmpty()){
             System.out.println("Species cannnot be empty.");
             return;
@@ -274,16 +288,16 @@ public class Zoo {
     }
 
     //Creating Animal Object
-    private Animal createAnimalBySpecies(String species, String id, String name, double weight) {
+    private Animal createAnimalBySpecies(String id, String name, String species, double weight) {
         switch (species.toLowerCase()) {
             case "lion":
-                return new Lion(id, name, species, weight);
+                return new Lion(id, name, species, weight, "Meat", 2, 0);
             case "elephant":
-                return new Elephant(id, name, species, weight);
+                return new Elephant(id, name, species, weight, "Vegetation", 3, 0);
             case "penguin":
-                return new Penguin(id, name, species, weight);
+                return new Penguin(id, name, species, weight, "Fish", 3, 0);
             case "owl":
-                return new Owl(id, name, species, weight);
+                return new Owl(id, name, species, weight, "Meat", 2, 0);
             default:
                 return null;
         }
