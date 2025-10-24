@@ -16,7 +16,7 @@ public class Keeper {
         this.keeperID = keeperID;
         this.name = name;
         this.expertiseSpecies = expertiseSpecies;
-        this.assignedAnimals = assignedAnimals;
+        this.assignedAnimals = new ArrayList<Animal>();
     }
 
     // Operation for Expertise
