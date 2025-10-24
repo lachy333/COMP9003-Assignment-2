@@ -58,107 +58,17 @@ public class Main {
                         break;
 
                     case 3:
-                        boolean backToMain2 = false;
-
-                        while (!backToMain2) {
-                            System.out.println("3-1. To add keeper, enter 1");
-                            System.out.println("3-2. To remove keeper, enter 2");
-                            System.out.println("To move back to main menu, enter 3");
-                            String keeperChoice = scan.nextLine();
-                            switch (Integer.parseInt(keeperChoice)) {
-                                case 1:
-                                    System.out.print("Enter Keeper Name: ");
-                                    String keeperName = scan.nextLine();
-                                    System.out.print(
-                                            "Enter expertise species(Lion, Elephant, Penguin, Owl) using , as separator: ");
-                                    String keeperExp = scan.nextLine();
-                                    keeperExp = keeperExp.replaceAll(" ", "");
-                                    ArrayList<String> keeperColumns = new ArrayList<String>();
-                                    for (String s : keeperExp.split(",")) {
-                                        keeperColumns.add(s);
-                                    }
-
-                                    zoo.addKeeper(keeperName, keeperColumns);
-                                    break;
-
-                                case 2:
-                                    System.out.print("Enter Keeper ID to remove: ");
-                                    String keeperID = scan.nextLine();
-                                    zoo.removeKeeper(keeperID);
-                                    break;
-
-                                case 3:
-                                    backToMain2 = true;
-                                    System.out.println("Returning to main menu.");
-                                    break;
-
-                                default:
-                                    System.out.println("Invalid menu number. Please enter valid menu number.");
-                                    break;
-                            }
-                            break;
-                        }
+                        keeperMenu(scan, zoo);
+                        break;
 
                     case 4:
-
-                        boolean backToMain3 = false;
-
-                        while (!backToMain3) {
-                            System.out.print("Enter KeeperID and AnimalID to assign using , as separator.");
-                            System.out.println("(e.g., K1,L1)");
-                            System.out.println("To move back to main menu, enter 3");
-
-                            String keeperID = scan.nextLine();
-                            if (keeperID.equals("3")) {
-                                System.out.println("Returning to main menu.");
-                                break;
-                            } else {
-                                String[] assignInfo = keeperID.split(",");
-                                if (assignInfo.length != 2) {
-                                    System.out.println(
-                                            "Invalid input format. Please, try again with KeeperID and AnimalID.");
-                                    break;
-                                } else {
-                                    zoo.assignKeeperToAnimal(assignInfo[0], assignInfo[1]);
-                                    break;
-                                }
-                            }
-                        }
+                        assign(scan, zoo);
+                        break;
 
                     case 5:
+                        feed(scan, zoo);
+                        break;
 
-                        boolean backToMain4 = false;
-
-                        while (!backToMain4) {
-
-                            System.out.print("Enter Animal ID: ");
-                            System.out.println("To move back to main menu, enter 3");
-                            String feedAnimalID = scan.nextLine();
-                            if (feedAnimalID.equals("3")) {
-                                System.out.println("Returning to main menu.");
-                                break;
-                            }
-                            System.out.println("5-1. To feed default portion, enter 1");
-                            System.out.println("5-2. To feed specified portion, enter 2");
-                            System.out.println("To move back to main menu, enter 'back'");
-
-                            String feedChoice = scan.nextLine();
-                            switch (Integer.parseInt(feedChoice)) {
-                                case 1:
-                                    zoo.feedAnimal(feedAnimalID);
-                                    break;
-                                case 2:
-                                    System.out.print("Enter portion in Kg: ");
-                                    double portionKg = Double.parseDouble(scan.nextLine());
-                                    zoo.feedAnimal(feedAnimalID, portionKg);
-                                    break;
-                                case 3:
-                                    System.out.println("Returning to main menu.");
-                                    break;
-                                default:
-                                    System.out.println("Invalid menu number. Please enter valid menu number.");
-                            }
-                        }
                     case 6:
                         running = false;
                         scan.close();
@@ -226,7 +136,99 @@ public class Main {
     }
 
     public static void keeperMenu(Scanner scan, Zoo zoo) {
+        while (true) {
+            System.out.println("3-1. To add keeper, enter 1");
+            System.out.println("3-2. To remove keeper, enter 2");
+            System.out.println("To move back to main menu, enter 3");
+            String keeperChoice = scan.nextLine();
+            switch (Integer.parseInt(keeperChoice)) {
+                case 1:
+                    System.out.print("Enter Keeper Name: ");
+                    String keeperName = scan.nextLine();
+                    System.out.print(
+                            "Enter expertise species(Lion, Elephant, Penguin, Owl) using , as separator: ");
+                    String keeperExp = scan.nextLine();
+                    keeperExp = keeperExp.replaceAll(" ", "");
+                    ArrayList<String> keeperColumns = new ArrayList<String>();
+                    for (String s : keeperExp.split(",")) {
+                        keeperColumns.add(s);
+                    }
 
+                    zoo.addKeeper(keeperName, keeperColumns);
+                    break;
+
+                case 2:
+                    System.out.print("Enter Keeper ID to remove: ");
+                    String keeperID = scan.nextLine();
+                    zoo.removeKeeper(keeperID);
+                    break;
+
+                case 3:
+                    System.out.println("Returning to main menu.");
+                    return;
+
+                default:
+                    System.out.println("Invalid menu number. Please enter valid menu number.");
+                    break;
+            }
+        }
+
+    }
+
+    public static void assign(Scanner scan, Zoo zoo) {
+        while (true) {
+            System.out.print("Enter KeeperID and AnimalID to assign using , as separator.");
+            System.out.println("(e.g., K1,L1)");
+            System.out.println("To move back to main menu, enter 3");
+
+            String keeperID = scan.nextLine();
+            if (keeperID.equals("3")) {
+                System.out.println("Returning to main menu.");
+                return;
+            } else {
+                String[] assignInfo = keeperID.split(",");
+                if (assignInfo.length != 2) {
+                    System.out.println(
+                            "Invalid input format. Please, try again with KeeperID and AnimalID.");
+                } else {
+                    zoo.assignKeeperToAnimal(assignInfo[0], assignInfo[1]);
+                }
+            }
+        }
+    }
+
+    public static void feed(Scanner scan, Zoo zoo) {
+        while (true) {
+
+            System.out.print("Enter Animal ID: ");
+            System.out.println("To move back to main menu, enter 3");
+            String feedAnimalID = scan.nextLine();
+            if (feedAnimalID.equals("3")) {
+                System.out.println("Returning to main menu.");
+                break;
+            }
+            System.out.println("5-1. To feed default portion, enter 1");
+            System.out.println("5-2. To feed specified portion, enter 2");
+            System.out.println("To move back to main menu, enter 'back'");
+
+            String feedChoice = scan.nextLine();
+            switch (Integer.parseInt(feedChoice)) {
+                case 1:
+                    zoo.feedAnimal(feedAnimalID);
+                    break;
+                case 2:
+                    System.out.print("Enter portion in Kg: ");
+                    double portionKg = Double.parseDouble(scan.nextLine());
+                    zoo.feedAnimal(feedAnimalID, portionKg);
+                    break;
+                case 3:
+                    System.out.println("Returning to main menu.");
+                    return;
+                default:
+                    System.out.println("Invalid menu number. Please enter valid menu number.");
+            }
+
+        }
     }
 
 }
