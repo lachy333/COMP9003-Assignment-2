@@ -16,7 +16,7 @@ public class Keeper {
         this.keeperID = keeperID;
         this.name = name;
         this.expertiseSpecies = expertiseSpecies;
-        this.assignedAnimals = new ArrayList<Animal>();
+        this.assignedAnimals = assignedAnimals;
     }
 
     // Operation for Expertise
@@ -58,9 +58,10 @@ public class Keeper {
     /**
      * Add an animal to this keeper.
      * Throws an exception if the keeper does not have the required expertise.
+     *  
      */
 
-    public void assignAnimal(Animal a) {
+    public void assignAnimal(Animal a) throws ExpertiseMismatchException {
         if (a == null) {
             return;
         }
@@ -75,8 +76,8 @@ public class Keeper {
             }
         }
         if (!ok) {
-            System.out.println("Keeper " + keeperID + " lacks expertise for species: " + species);
-            return;
+            throw new ExpertiseMismatchException(
+                    "Keeper " + keeperID + " lacks expertise for species: " + species);
         }
 
         // Add if it is not already assigned
