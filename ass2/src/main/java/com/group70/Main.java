@@ -1,12 +1,8 @@
 package com.group70;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import com.group70.zoo.Zoo;
-import com.group70.animal.Animal;
-import com.group70.animal.InvalidPortionException;
-import com.group70.animal.OverfeedException;
-import com.group70.keeper.ExpertiseMismatchException;
-import com.group70.keeper.Keeper;
 
 /*
  * 7.	User Interaction (Main Class)
@@ -28,6 +24,10 @@ Requirements:
 public class Main {
 
     public static void main(String[] args) {
+        programStart(args);
+    }
+
+    public static void programStart(String[] args) {
 
         Scanner scan = new Scanner(System.in);
         Zoo zoo = new Zoo();
@@ -54,125 +54,20 @@ public class Main {
                         zoo.displayAllKeepers();
                         break;
                     case 2:
-                        boolean backToMain = false;
-                        System.out.println("2-1. To add animal, enter 1");
-                        System.out.println("2-2. To remove animal, enter 2");
-                        System.out.println("To move back to main meny, enter 3");
-
-                        while (!backToMain) {
-
-                            String animalChoice = scan.nextLine();
-                            switch (Integer.parseInt(animalChoice)) {
-                                case 1:
-                                    System.out.println("Available animal species: Lion, Elephant, Penguin, Owl.");
-                                    System.out.println("Please type an animal information to add using below format:");
-                                    System.out.println("input details in order of animal name, species(from above), weightKg using , as separator.");
-                                    System.out.println("e.g., Simba, Lion, 100.5");
-                                    String animalInfo = scan.nextLine();
-                                    animalInfo = animalInfo.replaceAll(" ", "");
-                                    String[] columns = animalInfo.split(",");
-                                    if (columns.length != 3) {
-                                        System.out.println(
-                                                "Invalid input format. Please, try again with animal name, species, wightKg.");
-                                        break;
-                                    } else {
-                                        zoo.addAnimal(columns[0], columns[1], Double.parseDouble(columns[2]));
-                                        break;
-                                    }
-
-                                case 2:
-                                    System.out.print("Enter Animal ID to remove: ");
-                                    String animalID = scan.nextLine();
-                                    zoo.removeAnimal(animalID);
-                                    break;
-
-                                case 3:
-                                    backToMain = true;
-                                    System.out.println("Returning to main menu.");
-                                    break;
-
-                                default:
-                                    System.out.println("Invalid menu number. Please enter valid menu number.");
-                                    break;
-                            }
-                        }
+                        animalMenu(scan, zoo);
+                        break;
 
                     case 3:
-                        boolean backToMain2 = false;
-                        System.out.println("3-1. To add keeper, enter 1");
-                        System.out.println("3-2. To remove keeper, enter 2");
-                        System.out.println("To move back to main meny, enter 3");
-                        String keeperChoice = scan.nextLine();
-                        switch (Integer.parseInt(keeperChoice)) {
-                            case 1:
-                                System.out.print("Enter Keeper Name: ");
-                                String keeperName = scan.nextLine();
-                                System.out.print("Endter expertise species(Lion, Elephant, Penguin, Owl) using , as separator: ");
-                                String keeperExp = scan.nextLine();
-                                keeperExp = keeperExp.replaceAll(" ", "");
-                                String[] keeperColumns = keeperExp.split(",");
-                                if (keeperColumns.length != 2) {
-                                    System.out.println(
-                                            "Invalid input format. Please, try again with keeper name and expertise species.");
-                                    break;
-                                } else {
-                                    zoo.addKeeper(keeperColumns[0], keeperColumns);
-                                    break;
-                                }
-
-                            case 2:
-                                System.out.print("Enter Keeper ID to remove: ");
-                                String keeperID = scan.nextLine();
-                                zoo.removeKeeper(keeperID);
-                                break;
-
-                            case 3:
-                                backToMain2 = true;
-                                System.out.println("Returning to main menu.");
-                                break;
-
-                            default:
-                                System.out.println("Invalid menu number. Please enter valid menu number.");
-                                break;
-                        }
+                        keeperMenu(scan, zoo);
                         break;
 
                     case 4:
-                        System.out.print("Enter KeeperID and AnimalID to assign using , as separator: ");
-                        System.out.print("e.g., K1,L1");
-                        String keeperID = scan.nextLine();
-                        String[] assignInfo = keeperID.split(",");
-                        if (assignInfo.length != 2) {
-                            System.out.println(
-                                    "Invalid input format. Please, try again with KeeperID and AnimalID.");
-                            break;
-                        } else {
-                            zoo.assignKeeperToAnimal(assignInfo[0], assignInfo[1]);
-                            break;
-                        }
-                        
+                        assign(scan, zoo);
+                        break;
+
                     case 5:
-                        System.out.print("Enter Animal ID: ");
-                        String feedAnimalID = scan.nextLine();
-                        System.out.println("5-1. To feed default portion, enter 1");
-                        System.out.println("5-2. To feed specified portion, enter 2");
-                        System.out.println("To move back to main meny, enter 3");
-                        String feedChoice = scan.nextLine();
-                        switch (Integer.parseInt(feedChoice)) {
-                            case 1:
-                                zoo.feedAnimal(feedAnimalID);
-                                break;
-                            case 2:
-                                System.out.print("Enter portion in Kg: ");
-                                double portionKg = Double.parseDouble(scan.nextLine());
-                                zoo.feedAnimal(feedAnimalID, portionKg);
-                                break;
-                            case 3:
-                                System.out.println("Returning to main menu.");
-                                break;
-                            default:
-                                System.out.println("Invalid menu number. Please enter valid menu number.");
-                        }
+                        feed(scan, zoo);
+                        break;
 
                     case 6:
                         running = false;
@@ -185,8 +80,7 @@ public class Main {
 
                 }
 
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid menu number. Please enter valid menu number.");
             }
 
@@ -195,6 +89,146 @@ public class Main {
             }
         }
 
+    }
+
+    public static void animalMenu(Scanner scan, Zoo zoo) {
+
+        while (true) {
+            System.out.println("2-1. To add animal, enter 1");
+            System.out.println("2-2. To remove animal, enter 2");
+            System.out.println("To move back to main menu, enter 3");
+
+            String animalChoice = scan.nextLine();
+            switch (Integer.parseInt(animalChoice)) {
+                case 1:
+                    System.out.println("Available animal species: Lion, Elephant, Penguin, Owl.");
+                    System.out.println("Please type an animal information to add using below format:");
+                    System.out.println(
+                            "input details in order of animal name, species(from above), weightKg using , as separator.");
+                    System.out.println("e.g., Simba, Lion, 100.5");
+                    String animalInfo = scan.nextLine();
+                    animalInfo = animalInfo.replaceAll(" ", "");
+                    String[] columns = animalInfo.split(",");
+                    if (columns.length != 3) {
+                        System.out.println(
+                                "Invalid input format. Please, try again with animal name, species, wightKg.");
+                        break;
+                    } else {
+                        zoo.addAnimal(columns[0], columns[1], Double.parseDouble(columns[2]));
+                        break;
+                    }
+
+                case 2:
+                    System.out.print("Enter Animal ID to remove: ");
+                    String animalID = scan.nextLine();
+                    zoo.removeAnimal(animalID);
+                    break;
+
+                case 3:
+                    System.out.println("Returning to main menu.");
+                    return;
+
+                default:
+                    System.out.println("Invalid menu number. Please enter valid menu number.");
+                    break;
+            }
+        }
+    }
+
+    public static void keeperMenu(Scanner scan, Zoo zoo) {
+        while (true) {
+            System.out.println("3-1. To add keeper, enter 1");
+            System.out.println("3-2. To remove keeper, enter 2");
+            System.out.println("To move back to main menu, enter 3");
+            String keeperChoice = scan.nextLine();
+            switch (Integer.parseInt(keeperChoice)) {
+                case 1:
+                    System.out.print("Enter Keeper Name: ");
+                    String keeperName = scan.nextLine();
+                    System.out.print(
+                            "Enter expertise species(Lion, Elephant, Penguin, Owl) using , as separator: ");
+                    String keeperExp = scan.nextLine();
+                    keeperExp = keeperExp.replaceAll(" ", "");
+                    ArrayList<String> keeperColumns = new ArrayList<String>();
+                    for (String s : keeperExp.split(",")) {
+                        keeperColumns.add(s);
+                    }
+
+                    zoo.addKeeper(keeperName, keeperColumns);
+                    break;
+
+                case 2:
+                    System.out.print("Enter Keeper ID to remove: ");
+                    String keeperID = scan.nextLine();
+                    zoo.removeKeeper(keeperID);
+                    break;
+
+                case 3:
+                    System.out.println("Returning to main menu.");
+                    return;
+
+                default:
+                    System.out.println("Invalid menu number. Please enter valid menu number.");
+                    break;
+            }
+        }
+
+    }
+
+    public static void assign(Scanner scan, Zoo zoo) {
+        while (true) {
+            System.out.print("Enter KeeperID and AnimalID to assign using , as separator.");
+            System.out.println("(e.g., K1,L1)");
+            System.out.println("To move back to main menu, enter 3");
+
+            String keeperID = scan.nextLine();
+            if (keeperID.equals("3")) {
+                System.out.println("Returning to main menu.");
+                return;
+            } else {
+                String[] assignInfo = keeperID.split(",");
+                if (assignInfo.length != 2) {
+                    System.out.println(
+                            "Invalid input format. Please, try again with KeeperID and AnimalID.");
+                } else {
+                    zoo.assignKeeperToAnimal(assignInfo[0], assignInfo[1]);
+                }
+            }
+        }
+    }
+
+    public static void feed(Scanner scan, Zoo zoo) {
+        while (true) {
+
+            System.out.print("Enter Animal ID: ");
+            System.out.println("To move back to main menu, enter 3");
+            String feedAnimalID = scan.nextLine();
+            if (feedAnimalID.equals("3")) {
+                System.out.println("Returning to main menu.");
+                break;
+            }
+            System.out.println("5-1. To feed default portion, enter 1");
+            System.out.println("5-2. To feed specified portion, enter 2");
+            System.out.println("To move back to main menu, enter 'back'");
+
+            String feedChoice = scan.nextLine();
+            switch (Integer.parseInt(feedChoice)) {
+                case 1:
+                    zoo.feedAnimal(feedAnimalID);
+                    break;
+                case 2:
+                    System.out.print("Enter portion in Kg: ");
+                    double portionKg = Double.parseDouble(scan.nextLine());
+                    zoo.feedAnimal(feedAnimalID, portionKg);
+                    break;
+                case 3:
+                    System.out.println("Returning to main menu.");
+                    return;
+                default:
+                    System.out.println("Invalid menu number. Please enter valid menu number.");
+            }
+
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package com.group70.zoo;
 
-import java.util.Scanner;
 import java.util.ArrayList;
 
 import com.group70.keeper.Keeper;
@@ -12,6 +11,7 @@ import com.group70.animal.InvalidPortionException;
 import com.group70.animal.OverfeedException;
 import com.group70.animal.Penguin;
 import com.group70.animal.Owl;
+import com.group70.keeper.ExpertiseMismatchException;
 
 public class Zoo {
     // List to manage animals
@@ -46,12 +46,16 @@ public class Zoo {
 
         // Find animal by animalID
         Animal animal = findAnimalById(animalID);
-        if (animal == null){
+        if (animal == null) {
             System.out.println("Can't find this animal: " + animalID);
             return;
         }
-
-        keeper.assignAnimal(animal);
+        
+        try {
+            keeper.assignAnimal(animal);
+        } catch (ExpertiseMismatchException e) {
+            System.out.println("Keeper " + keeperID + " lacks expertise for species: " + animal.getSpecies());
+        } 
 
     }
 
@@ -120,6 +124,8 @@ public class Zoo {
                 System.out.println("Name: " + a.getName());
                 System.out.println("Species: " + a.getSpecies());
                 System.out.println("Weight: " + a.getWeightKg() + " kg");
+                System.out.println("Diet Profile: " + a.getDietProfile());
+                System.out.println("Required Meals Per Day: " + a.getRequiredMealsPerDay());
                 System.out.println("----------------------------");
             }
         }
@@ -143,7 +149,7 @@ public class Zoo {
             if (k != null){
                 System.out.println("Keeper ID: " + k.getKeeperID());
                 System.out.println("Name: " + k.getName());
-                System.out.println("Expertise: " + k.getExpertise());
+                System.out.println("Expertise: " + k.getExpertise().toString());
                 System.out.println("----------------------------");
             }
         }
@@ -177,34 +183,31 @@ public class Zoo {
      * If the error occurs, catch the exception and print it
      */
     
-    public void addAnimal(Animal animal) {
-        if (animal == null){
-            System.out.println("Invalid animal.");
+    public void addAnimal(String name, String species, double weightKg) {
+        if (name == null || name.isEmpty()|| species == null || species.isEmpty() || weightKg <= 0){
+            System.out.println("Invalid input for adding animal. Please check name, species, and weight.");
             return;
         }
 
-        //If ID is not set, add automatically
-        String id = animal.getAnimalID();
-        if (id == null || id.isBlank()){
-            id = String.valueOf(nextAnimalId++);
-            animal.setAnimalID(id);
-        } else{
-            //Checking the duplicate
-            if (existsAnimalId(id)){
-                System.out.println("Duplicate animal ID: " + id);
-                return;
-            }
-        }
-        try {
-            animals.add(animal);
-            System.out.println("Added animal with ID: " + id);
-        } catch (Exception e) {
-            System.out.println("Error adding animal: " + e.getMessage());
-        }
+        //add ID automatically
+        String id = species.substring(0,1) + String.valueOf(nextAnimalId++);
+        
+        Animal animal = createAnimalBySpecies(id, name, species, weightKg);
+
+        if (animal == null){
+            System.out.println("Unexpected species: " + species);
+            return;
+        } 
+
+        animals.add(animal);
+
+        System.out.println("Added animal with ID: " + id);
+        System.out.println("Name: " + name + ", Species: " + species + ", Weight: " + weightKg + "kg" + ", dietProfile: " 
+                            + animal.getDietProfile() + ", requiredMealsPerDay: " + animal.getRequiredMealsPerDay());
 
     }
 
-    //Input animal
+    /* //Input animal
     public void addAnimalInteractive(Scanner sc){
         System.out.println("Available species: Lion/ Elephant/ Penguin/ Owl");
 
@@ -247,20 +250,31 @@ public class Zoo {
         addAnimal(a);
         
     }
+    */
 
     /**
      * Add the new keeper to the list
      */
     
-    public void addKeeper(Keeper keeper){
-        try {
-            this.keepers.add(keeper);
-        } catch (Exception e) {
-            System.out.println("Error adding keeper: " + e.getMessage());
+    public void addKeeper(String name, ArrayList<String> expertiseSpecies){
+        if (name == null || name.isEmpty()|| expertiseSpecies == null || expertiseSpecies.size() == 0){
+            System.out.println("Invalid input for adding keeper. Please check name, expertise species.");
+            return;
         }
+
+        //add ID automatically
+        String id = "Keeper" + String.valueOf(nextKeeperId++);
+        Keeper newKeeper = new Keeper(id, name, expertiseSpecies);
+        
+        keepers.add(newKeeper);
+
+        System.out.println("Added Keeper with ID: " + id);
+        System.out.println("Name: " + name + ", Species: " + expertiseSpecies.toString());
+
+
     }
 
-    //Input Keeper
+    /* //Input Keeper
     public void addKeeperInteractive(Scanner sc){
         String keeperId = "K" + (nextKeeperId++);
 
@@ -286,6 +300,7 @@ public class Zoo {
         addKeeper(k);
         System.out.println("Add keeper: " + keeperId + "(" + name + ") expertise " + k.getExpertise());
     }
+    */
 
     //Creating Animal Object
     private Animal createAnimalBySpecies(String id, String name, String species, double weight) {
@@ -302,6 +317,7 @@ public class Zoo {
                 return null;
         }
     }
+    
 
     /**
      * Helper method to find an animal by its ID
@@ -317,6 +333,8 @@ public class Zoo {
         return null;
     }
 
+    /*
+
     //Checking the same animal ID
     private boolean existsAnimalId(String id){
         for (Animal a: animals){
@@ -326,6 +344,8 @@ public class Zoo {
         }
         return false;
     }
+
+    */
 
     /**
      * Helper method to find a keeper by their ID

@@ -9,7 +9,7 @@ public class Penguin extends Animal {
 
     @Override
     public double dailyPortionKg() {
-        return 0.06 * getWeightkg(); // Penguins eat 6% of their body weight daily
+        return 0.06 * getWeightKg(); // Penguins eat 6% of their body weight daily
     }
 }
 

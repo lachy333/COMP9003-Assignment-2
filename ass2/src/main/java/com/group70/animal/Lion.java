@@ -9,7 +9,7 @@ public class Lion extends Animal {
 
     @Override
     public double dailyPortionKg() {
-        return 0.05 * getWeightkg(); // Lions eat 5% of their body weight daily
+        return 0.05 * getWeightKg(); // Lions eat 5% of their body weight daily
     }
 }
 
