@@ -9,6 +9,6 @@ public class Elephant extends Animal {
 
     @Override
     public double dailyPortionKg() {
-        return 0.03 * getWeightkg(); // Elephants eat 3% of their body weight daily
+        return 0.03 * getWeightKg(); // Elephants eat 3% of their body weight daily
     }
 }

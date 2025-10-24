@@ -9,7 +9,7 @@ public class Owl extends Animal {
 
     @Override
     public double dailyPortionKg() {
-        return 0.08 * getWeightkg(); // Owls eat 8% of their body weight daily
+        return 0.08 * getWeightKg(); // Owls eat 8% of their body weight daily
     }
 }
 
