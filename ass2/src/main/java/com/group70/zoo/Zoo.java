@@ -11,6 +11,7 @@ import com.group70.animal.InvalidPortionException;
 import com.group70.animal.OverfeedException;
 import com.group70.animal.Penguin;
 import com.group70.animal.Owl;
+import com.group70.keeper.ExpertiseMismatchException;
 
 public class Zoo {
     // List to manage animals
@@ -45,12 +46,16 @@ public class Zoo {
 
         // Find animal by animalID
         Animal animal = findAnimalById(animalID);
-        if (animal == null){
+        if (animal == null) {
             System.out.println("Can't find this animal: " + animalID);
             return;
         }
-
-        keeper.assignAnimal(animal);
+        
+        try {
+            keeper.assignAnimal(animal);
+        } catch (ExpertiseMismatchException e) {
+            System.out.println("Keeper " + keeperID + " lacks expertise for species: " + animal.getSpecies());
+        } 
 
     }
 
