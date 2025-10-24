@@ -124,6 +124,8 @@ public class Zoo {
                 System.out.println("Name: " + a.getName());
                 System.out.println("Species: " + a.getSpecies());
                 System.out.println("Weight: " + a.getWeightKg() + " kg");
+                System.out.println("Diet Profile: " + a.getDietProfile());
+                System.out.println("Required Meals Per Day: " + a.getRequiredMealsPerDay());
                 System.out.println("----------------------------");
             }
         }
@@ -147,7 +149,7 @@ public class Zoo {
             if (k != null){
                 System.out.println("Keeper ID: " + k.getKeeperID());
                 System.out.println("Name: " + k.getName());
-                System.out.println("Expertise: " + k.getExpertise());
+                System.out.println("Expertise: " + k.getExpertise().toString());
                 System.out.println("----------------------------");
             }
         }
@@ -200,7 +202,7 @@ public class Zoo {
         animals.add(animal);
 
         System.out.println("Added animal with ID: " + id);
-        System.out.println("Name: " + name + ", Species: " + species + ", Weight: " + weightKg + " kg" + "dietProfile: " 
+        System.out.println("Name: " + name + ", Species: " + species + ", Weight: " + weightKg + "kg" + ", dietProfile: " 
                             + animal.getDietProfile() + ", requiredMealsPerDay: " + animal.getRequiredMealsPerDay());
 
     }
