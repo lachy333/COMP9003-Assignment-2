@@ -263,7 +263,7 @@ public class Zoo {
         }
 
         //add ID automatically
-        String id = "Keeper" + String.valueOf(nextKeeperId++);
+        String id = "K" + String.valueOf(nextKeeperId++);
         Keeper newKeeper = new Keeper(id, name, expertiseSpecies);
         
         keepers.add(newKeeper);
@@ -306,13 +306,13 @@ public class Zoo {
     private Animal createAnimalBySpecies(String id, String name, String species, double weight) {
         switch (species.toLowerCase()) {
             case "lion":
-                return new Lion(id, name, species, weight, "Meat", 2, 0);
+                return new Lion(id, name, species, weight, "CARNIVORE", 2, 0);
             case "elephant":
-                return new Elephant(id, name, species, weight, "Vegetation", 3, 0);
+                return new Elephant(id, name, species, weight, "HERBIVORE", 3, 0);
             case "penguin":
-                return new Penguin(id, name, species, weight, "Fish", 3, 0);
+                return new Penguin(id, name, species, weight, "OMNIVORE", 3, 0);
             case "owl":
-                return new Owl(id, name, species, weight, "Meat", 2, 0);
+                return new Owl(id, name, species, weight, "CARNIVORE", 2, 0);
             default:
                 return null;
         }
