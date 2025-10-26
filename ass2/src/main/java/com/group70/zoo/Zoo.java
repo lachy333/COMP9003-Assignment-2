@@ -150,6 +150,16 @@ public class Zoo {
                 System.out.println("Keeper ID: " + k.getKeeperID());
                 System.out.println("Name: " + k.getName());
                 System.out.println("Expertise: " + k.getExpertise().toString());
+                if (k.getAssignedAnimals().isEmpty()){
+                    System.out.println("Assigned animals: (none)");
+                } else{
+                    System.out.println("Assigned animals: ");
+                    for (Animal a : k.getAssignedAnimals()){
+                        if (a != null){
+                            System.out.println(" - " + a.getAnimalID() + "( " + a.getName() + ", " + a.getSpecies() + ")");
+                        }
+                    }
+                }
                 System.out.println("----------------------------");
             }
         }

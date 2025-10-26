@@ -191,7 +191,10 @@ public class Main {
                     System.out.println(
                             "Invalid input format. Please, try again with KeeperID and AnimalID.");
                 } else {
-                    zoo.assignKeeperToAnimal(assignInfo[0], assignInfo[1]);
+                    String kid = assignInfo[0].trim();
+                    String aid = assignInfo[1].trim();
+
+                    zoo.assignKeeperToAnimal(kid, aid);
                 }
             }
         }
