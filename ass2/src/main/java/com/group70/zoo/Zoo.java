@@ -200,15 +200,16 @@ public class Zoo {
             return;
         }
 
-        //add ID automatically
-        String id = species.substring(0,1) + String.valueOf(nextAnimalId++);
         
         Animal animal = createAnimalBySpecies(id, name, species, weightKg);
-
+        
         if (animal == null){
             System.out.println("Unexpected species: " + species + "\n Failed to add animal. Please check species and try agian.");
             return;
         } 
+        
+        //add ID automatically
+        String id = species.substring(0,1) + String.valueOf(nextAnimalId++);
 
         animals.add(animal);
 
