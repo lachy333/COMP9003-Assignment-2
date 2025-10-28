@@ -202,7 +202,7 @@ public class Zoo {
 
         
         //add ID automatically
-        String id = species.substring(0,1) + String.valueOf(nextAnimalId++);
+        String id = species.substring(0,1).toUpperCase() + String.valueOf(nextAnimalId++);
         
         Animal animal = createAnimalBySpecies(id, name, species, weightKg);
         
