@@ -50,6 +50,7 @@ public class Main {
 
                 switch (Integer.parseInt(menuChoice)) {
                     case 1:
+                        zoo.summary();
                         zoo.displayAllAnimals();
                         zoo.displayAllKeepers();
                         break;
