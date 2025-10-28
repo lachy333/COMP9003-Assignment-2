@@ -13,7 +13,7 @@ public abstract class Animal {
 
     // Constructor
     public Animal(String animalId, String name, String species, double weightkg,
-                  String dietProfile, int requiredMealsPerDay, int feedCount) {
+            String dietProfile, int requiredMealsPerDay, int feedCount) {
         this.animalId = animalId;
         this.name = name;
         this.species = species;
@@ -23,9 +23,9 @@ public abstract class Animal {
         this.feedCount = feedCount;
     }
 
-    public void feed(String food, double portionKg) 
-        throws InvalidPortionException, OverfeedException {
-    
+    public void feed(String food, double portionKg)
+            throws InvalidPortionException, OverfeedException {
+
         // Validate portion
         if (portionKg <= 0) {
             throw new InvalidPortionException("Portion must be positive.");
@@ -45,18 +45,12 @@ public abstract class Animal {
         }
     }
 
-
-    public void feed(String food) 
-        throws InvalidPortionException, OverfeedException {
-    double portion = dailyPortionKg() / requiredMealsPerDay;  // Default portion
-    feed(food, portion);  // Call overloaded version
+    public void feed(String food) throws InvalidPortionException, OverfeedException {
+        double portion = dailyPortionKg() / requiredMealsPerDay; // Default portion
+        feed(food, portion); // Call overloaded version
     }
 
-
-    public double dailyPortionKg() {
-        /* Returns the daily proportion of food required by the animal */
-        return 0;
-    }
+    public abstract double dailyPortionKg();
 
     public void displayStatus() {
         System.out.println("Animal ID: " + animalId);
@@ -66,7 +60,6 @@ public abstract class Animal {
         System.out.println("Diet: " + dietProfile);
         System.out.println("Meals Fed: " + feedCount + "/" + requiredMealsPerDay);
     }
-    
 
     // Getter Methods
     public String getAnimalID() {
@@ -126,10 +119,4 @@ public abstract class Animal {
         this.feedCount = feedCount;
     }
 
-    public static void main(String[] args) {
-
-    }
-    
 }
-
-
