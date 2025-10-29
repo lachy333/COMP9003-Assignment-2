@@ -126,6 +126,7 @@ public class Zoo {
                 System.out.println("Weight: " + a.getWeightKg() + " kg");
                 System.out.println("Diet Profile: " + a.getDietProfile());
                 System.out.println("Required Meals Per Day: " + a.getRequiredMealsPerDay());
+                System.out.println("Feed Count: " + a.getFeedCount());
                 System.out.println("----------------------------");
             }
         }
@@ -199,16 +200,18 @@ public class Zoo {
             return;
         }
 
+        
         //add ID automatically
-        String id = species.substring(0,1) + String.valueOf(nextAnimalId++);
+        String id = species.substring(0,1).toUpperCase() + String.valueOf(nextAnimalId++);
         
         Animal animal = createAnimalBySpecies(id, name, species, weightKg);
-
+        
         if (animal == null){
-            System.out.println("Unexpected species: " + species);
+            System.out.println("Unexpected species: " + species + "\n Failed to add animal. Please check species and try agian.");
+            nextAnimalId--; // revert ID increment
             return;
         } 
-
+        
         animals.add(animal);
 
         System.out.println("Added animal with ID: " + id);

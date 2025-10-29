@@ -90,6 +90,7 @@ public class Keeper {
         }
         if (!alreadyAssigned) {
             assignedAnimals.add(a);
+            System.out.println("Animal " + a.getAnimalID() + " assigned to Keeper " + keeperID + ".");
         }
 
     }
