@@ -204,7 +204,7 @@ public class Main {
     public static void feed(Scanner scan, Zoo zoo) {
         while (true) {
 
-            System.out.print("Enter Animal ID ");
+            System.out.println("Enter Animal ID ");
             System.out.println("To move back to main menu, enter 3");
             String feedAnimalID = scan.nextLine();
             if (feedAnimalID.equals("3")) {
