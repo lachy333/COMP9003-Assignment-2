@@ -1,9 +1,8 @@
-package main.java.com.group70.testing;
+package com.group70.testing;
 
 import java.util.ArrayList;
 
 import com.group70.keeper.Keeper;
-import com.group70.animal.Animal;
 import com.group70.zoo.Zoo;
 
 import com.group70.animal.Lion;
